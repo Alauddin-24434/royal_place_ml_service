@@ -1,5 +1,4 @@
 fastapi
-uvicorn
-transformers
+uvicorn[standard]
+transformers>=4.40
 torch
-pydentic

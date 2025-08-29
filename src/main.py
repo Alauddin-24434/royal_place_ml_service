@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from review_analyzer import sentiment_analyzer_function
-from discount_model import discount_function
-from recommender import recommend_services
-from room_selector import predict_room
+from src.features.review_analyzer import sentiment_analyzer_function
+from src.features.discount_model import discount_function
+from src.features.recommender import recommend_services
+from src.features.room_selector import predict_room
+
 
 app = FastAPI(title="Royal Palace Resort ML Service")
 
@@ -24,21 +25,26 @@ class RoomRequest(BaseModel):
     purpose: str
 
 # ---------- Sentiment Analysis ----------
-@app.post("/ml/sentiment")
+@app.post("/sentiment")
 def analyze_sentiment(review: Review):
     return sentiment_analyzer_function(review.text)
 
 # ---------- Dynamic Discounts ----------
-@app.post("/ml/discount")
+@app.post("/discount")
 def get_discount(booking: GuestBooking):
     return discount_function(booking.guest_id, booking.bookings_count)
 
 # ---------- Personalized Recommendation ----------
-@app.post("/ml/recommend")
+@app.post("/recommend")
 def recommend(history: GuestHistory):
     return recommend_services(history.guest_id)
 
 # ---------- Smart Room Selection ----------
-@app.post("/ml/room-suggest")
+@app.post("/room-suggest")
 def room_suggest(request: RoomRequest):
     return predict_room(request.guest_type, request.family_size, request.purpose)
+
+# ---------- Root ----------
+@app.get("/")
+def root():
+    return {"message": "Royal Palace Resort ML Service is running!"}
