@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from src.features.review_analyzer import sentiment_analyzer_function
-from src.features.discount_model import discount_function
-from src.features.recommender import recommend_services
-from src.features.room_selector import predict_room
+from review_analyzer import sentiment_analyzer_function
+from discount_model import discount_function
+from recommender import recommend_services
+from room_selector import predict_room
 
 
 app = FastAPI(title="Royal Palace Resort ML Service")
